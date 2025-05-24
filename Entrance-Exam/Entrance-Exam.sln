@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntranceExam", "Entrance-Exam\EntranceExam.csproj", "{C77E20B7-0518-463B-AE77-EBEFC4FE5FF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntranceExam.Repositories", "Entrance-Exam.Repositories\EntranceExam.Repositories.csproj", "{9B768B15-EBBA-470B-B71F-445CECF4B36B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntranceExam.Services", "Entrance-Exam.Services\EntranceExam.Services.csproj", "{A196B311-4C79-49A2-845C-CC25E9E4E46C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entrance-Exam.Test", "Entrance-Exam.Test\Entrance-Exam.Test.csproj", "{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C77E20B7-0518-463B-AE77-EBEFC4FE5FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C77E20B7-0518-463B-AE77-EBEFC4FE5FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C77E20B7-0518-463B-AE77-EBEFC4FE5FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C77E20B7-0518-463B-AE77-EBEFC4FE5FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B768B15-EBBA-470B-B71F-445CECF4B36B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B768B15-EBBA-470B-B71F-445CECF4B36B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B768B15-EBBA-470B-B71F-445CECF4B36B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B768B15-EBBA-470B-B71F-445CECF4B36B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A196B311-4C79-49A2-845C-CC25E9E4E46C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A196B311-4C79-49A2-845C-CC25E9E4E46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A196B311-4C79-49A2-845C-CC25E9E4E46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A196B311-4C79-49A2-845C-CC25E9E4E46C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
