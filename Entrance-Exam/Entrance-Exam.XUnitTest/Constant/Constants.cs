@@ -1,4 +1,4 @@
-﻿namespace Entrance_Exam.Test.Constant
+﻿namespace EntranceExam.XUnitTest.Constant
 {
     internal class Constants
     {

@@ -1,17 +1,16 @@
 ﻿using EntranceExam.Repositories.Context;
 using EntranceExam.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
+using Assert = Xunit.Assert;
 
-namespace EntranceExam.Tests.Repositories
+namespace TokenRepositoryUnitTest
 {
-    [TestClass]
-    public class TokenRepositoryTests
+    public class TokenRepositoryTests : IDisposable
     {
-        private EntranceTestDbContext _context;
-        private BaseRepository<Token> _repository;
+        private readonly EntranceTestDbContext _context;
+        private readonly BaseRepository<Token> _repository;
 
-        [TestInitialize]
-        public void Setup()
+        public TokenRepositoryTests()
         {
             var options = new DbContextOptionsBuilder<EntranceTestDbContext>()
                 .UseInMemoryDatabase(databaseName: $"TestDb_Token_{Guid.NewGuid()}")
@@ -21,13 +20,13 @@ namespace EntranceExam.Tests.Repositories
             _repository = new BaseRepository<Token>(_context);
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        public void Dispose()
         {
+            _context.Database.EnsureDeleted();
             _context.Dispose();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task AddAsync_ShouldAddToken()
         {
             var token = new Token
@@ -41,12 +40,12 @@ namespace EntranceExam.Tests.Repositories
 
             var result = await _repository.AddAsync(token);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual("refresh-token-123", result.RefreshToken);
-            Assert.AreEqual(1, _context.Tokens.Count());
+            Assert.NotNull(result);
+            Assert.Equal("refresh-token-123", result.RefreshToken);
+            Assert.Equal(1, _context.Tokens.Count());
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetByIdAsync_ShouldReturnToken()
         {
             var token = new Token
@@ -62,11 +61,11 @@ namespace EntranceExam.Tests.Repositories
 
             var result = await _repository.GetByIdAsync(token.Id);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual("find-token", result!.RefreshToken);
+            Assert.NotNull(result);
+            Assert.Equal("find-token", result!.RefreshToken);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateAsync_ShouldModifyToken()
         {
             var token = new Token
@@ -85,10 +84,10 @@ namespace EntranceExam.Tests.Repositories
             await _repository.UpdateAsync(token);
 
             var updated = await _context.Tokens.FindAsync(token.Id);
-            Assert.AreEqual("new-token", updated!.RefreshToken);
+            Assert.Equal("new-token", updated!.RefreshToken);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DeleteAsync_ShouldRemoveToken()
         {
             var token = new Token
@@ -104,10 +103,10 @@ namespace EntranceExam.Tests.Repositories
 
             await _repository.DeleteAsync(token);
 
-            Assert.IsFalse(_context.Tokens.Any(t => t.Id == token.Id));
+            Assert.False(_context.Tokens.Any(t => t.Id == token.Id));
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DeleteRangeAsync_ShouldRemoveTokens()
         {
             var tokens = new[]
@@ -120,7 +119,7 @@ namespace EntranceExam.Tests.Repositories
 
             await _repository.DeleteRangeAsync(tokens);
 
-            Assert.AreEqual(0, _context.Tokens.Count());
+            Assert.Equal(0, _context.Tokens.Count());
         }
     }
 }

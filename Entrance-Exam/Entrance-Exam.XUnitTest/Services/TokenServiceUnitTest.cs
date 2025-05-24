@@ -1,24 +1,23 @@
 ﻿using System.Linq.Expressions;
-using Entrance_Exam.Test.Constant;
+using EntranceExam.XUnitTest.Constant;
 using EntranceExam.Repositories.Entities;
 using EntranceExam.Services.Services;
 using EntranceExam.Services.Services.Implement;
 using Microsoft.Extensions.Configuration;
 using MockQueryable;
 using Moq;
+using Assert = Xunit.Assert;
 
-namespace EntranceExam.Tests.Services
+namespace TokenServiceUnitTest
 {
-    [TestClass]
     public class TokenServiceTests
     {
-        private Mock<IBaseRepository<Token>> _tokenRepoMock;
-        private Mock<IJwtService> _jwtServiceMock;
-        private Mock<IConfiguration> _configMock;
-        private TokenService _tokenService;
+        private readonly Mock<IBaseRepository<Token>> _tokenRepoMock;
+        private readonly Mock<IJwtService> _jwtServiceMock;
+        private readonly Mock<IConfiguration> _configMock;
+        private readonly TokenService _tokenService;
 
-        [TestInitialize]
-        public void Setup()
+        public TokenServiceTests()
         {
             _tokenRepoMock = new Mock<IBaseRepository<Token>>();
             _jwtServiceMock = new Mock<IJwtService>();
@@ -26,7 +25,7 @@ namespace EntranceExam.Tests.Services
             _tokenService = new TokenService(_tokenRepoMock.Object, _jwtServiceMock.Object, _configMock.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RemoveRefreshTokensAsync_ShouldRemoveTokens_WhenTokensExist()
         {
             var userId = 1;
@@ -39,17 +38,16 @@ namespace EntranceExam.Tests.Services
             _tokenRepoMock.Verify(r => r.DeleteRangeAsync(It.IsAny<List<Token>>()), Times.Once);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public async Task RemoveRefreshTokensAsync_ShouldThrow_WhenNoTokens()
         {
             var tokens = new List<Token>().AsQueryable().BuildMock();
             _tokenRepoMock.Setup(r => r.GetQueryable(It.IsAny<Expression<Func<Token, object>>[]>())).Returns(tokens);
 
-            await _tokenService.RemoveRefreshTokensAsync(1);
+            await Assert.ThrowsAsync<ArgumentException>(() => _tokenService.RemoveRefreshTokensAsync(1));
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RefreshTokenAsync_ShouldReturnNewTokens_WhenValid()
         {
             var refreshToken = "refresh_token";
@@ -72,22 +70,20 @@ namespace EntranceExam.Tests.Services
 
             var result = await _tokenService.RefreshTokenAsync(refreshToken);
 
-            Assert.AreEqual("jwt_token", result.Token);
-            Assert.AreEqual("new_refresh_token", result.RefreshToken);
+            Assert.Equal("jwt_token", result.Token);
+            Assert.Equal("new_refresh_token", result.RefreshToken);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
+        [Fact]
         public async Task RefreshTokenAsync_ShouldThrow_WhenTokenNotFound()
         {
             var tokens = new List<Token>().AsQueryable().BuildMock();
             _tokenRepoMock.Setup(r => r.GetQueryable(It.IsAny<Expression<Func<Token, object>>[]>())).Returns(tokens);
 
-            await _tokenService.RefreshTokenAsync("invalid_token");
+            await Assert.ThrowsAsync<KeyNotFoundException>(() => _tokenService.RefreshTokenAsync("invalid_token"));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public async Task RefreshTokenAsync_ShouldThrow_WhenTokenExpired()
         {
             var token = new Token
@@ -100,7 +96,7 @@ namespace EntranceExam.Tests.Services
             var tokens = new List<Token> { token }.AsQueryable().BuildMock();
             _tokenRepoMock.Setup(r => r.GetQueryable(It.IsAny<Expression<Func<Token, object>>[]>())).Returns(tokens);
 
-            await _tokenService.RefreshTokenAsync("expired_token");
+            await Assert.ThrowsAsync<ArgumentException>(() => _tokenService.RefreshTokenAsync("expired_token"));
         }
     }
 }

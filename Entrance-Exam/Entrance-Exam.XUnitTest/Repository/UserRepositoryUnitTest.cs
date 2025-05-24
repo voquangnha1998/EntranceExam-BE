@@ -1,17 +1,16 @@
 ﻿using EntranceExam.Repositories.Context;
 using EntranceExam.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
+using Assert = Xunit.Assert;
 
-namespace EntranceExam.Tests.Repositories
+namespace UserRepositoryUnitTest
 {
-    [TestClass]
-    public class BaseRepositoryTests
+    public class UserRepositoryTests : IDisposable
     {
-        private EntranceTestDbContext _context;
-        private BaseRepository<User> _repository;
+        private readonly EntranceTestDbContext _context;
+        private readonly BaseRepository<User> _repository;
 
-        [TestInitialize]
-        public void Setup()
+        public UserRepositoryTests()
         {
             var options = new DbContextOptionsBuilder<EntranceTestDbContext>()
                 .UseInMemoryDatabase(databaseName: $"TestDb_{Guid.NewGuid()}")
@@ -21,14 +20,13 @@ namespace EntranceExam.Tests.Repositories
             _repository = new BaseRepository<User>(_context);
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        public void Dispose()
         {
             _context.Database.EnsureDeleted();
             _context.Dispose();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task AddAsync_ShouldAddEntity()
         {
             var password = "123456";
@@ -37,12 +35,12 @@ namespace EntranceExam.Tests.Repositories
 
             var result = await _repository.AddAsync(user);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual("test@example.com", result.Email);
-            Assert.AreEqual(1, _context.Users.Count());
+            Assert.NotNull(result);
+            Assert.Equal("test@example.com", result.Email);
+            Assert.Equal(1, _context.Users.Count());
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetByIdAsync_ShouldReturnEntity()
         {
             var user = new User { Email = "find@example.com", FirstName = "Jane", LastName = "Doe" };
@@ -51,11 +49,11 @@ namespace EntranceExam.Tests.Repositories
 
             var result = await _repository.GetByIdAsync(user.Id);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(user.Email, result!.Email);
+            Assert.NotNull(result);
+            Assert.Equal(user.Email, result!.Email);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateAsync_ShouldModifyEntity()
         {
             var user = new User { Email = "update@example.com", FirstName = "Old", LastName = "Name" };
@@ -66,22 +64,22 @@ namespace EntranceExam.Tests.Repositories
             await _repository.UpdateAsync(user);
 
             var updated = await _context.Users.FindAsync(user.Id);
-            Assert.AreEqual("New", updated!.FirstName);
+            Assert.Equal("New", updated!.FirstName);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DeleteAsync_ShouldRemoveEntity()
         {
-            var user = new User { Id = 1, Email = "delete@example.com" };
+            var user = new User { Email = "delete@example.com" };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             await _repository.DeleteAsync(user);
 
-            Assert.IsFalse(_context.Users.Any(u => u.Id == user.Id));
+            Assert.False(_context.Users.Any(u => u.Id == user.Id));
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DeleteRangeAsync_ShouldRemoveEntities()
         {
             var users = new List<User>
@@ -94,14 +92,13 @@ namespace EntranceExam.Tests.Repositories
 
             await _repository.DeleteRangeAsync(users);
 
-            Assert.AreEqual(0, _context.Users.Count());
+            Assert.Empty(_context.Users);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetQueryable_ShouldReturnQueryable()
         {
-            var password = "123456";
-            var hash = BCrypt.Net.BCrypt.HashPassword(password);
+            var hash = BCrypt.Net.BCrypt.HashPassword("123456");
             var user = new User { Email = "test@example.com", FirstName = "John", LastName = "Doe", Hash = hash };
 
             _context.Users.Add(user);
@@ -109,7 +106,7 @@ namespace EntranceExam.Tests.Repositories
 
             var query = _repository.GetQueryable();
 
-            Assert.AreEqual(1, query.Count());
+            Assert.Single(query);
         }
     }
 }

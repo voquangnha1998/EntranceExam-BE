@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntranceExam.Repositories",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntranceExam.Services", "Entrance-Exam.Services\EntranceExam.Services.csproj", "{A196B311-4C79-49A2-845C-CC25E9E4E46C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entrance-Exam.Test", "Entrance-Exam.Test\Entrance-Exam.Test.csproj", "{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntranceExam.XUnitTest", "Entrance-Exam.XUnitTest\EntranceExam.XUnitTest.csproj", "{710237B4-76CE-43F6-AABD-769C99895BA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{A196B311-4C79-49A2-845C-CC25E9E4E46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A196B311-4C79-49A2-845C-CC25E9E4E46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A196B311-4C79-49A2-845C-CC25E9E4E46C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3EDFA1A-EE19-4C5C-865D-BE5EB447CC63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{710237B4-76CE-43F6-AABD-769C99895BA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{710237B4-76CE-43F6-AABD-769C99895BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{710237B4-76CE-43F6-AABD-769C99895BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{710237B4-76CE-43F6-AABD-769C99895BA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
